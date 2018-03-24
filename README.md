@@ -10,3 +10,5 @@
 Easily test your software using powerful evolutionary, feedback-driven fuzzing technology.
 
 ## [Documentation](https://docs.rs/fuzztest)
+
+This crate is using [honggfuzz-rs](https://github.com/rust-fuzz/honggfuzz-rs) as fuzzer.
