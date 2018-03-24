@@ -1,7 +1,7 @@
 # fuzztest [![Build Status][travis-img]][travis] [![Crates.io][crates-img]][crates] [![Documentation][docs-img]][docs]
 
-[travis-img]:   https://travis-ci.org/PaulGrandperrin/fuzztest.svg?branch=master
-[travis]:       https://travis-ci.org/PaulGrandperrin/fuzztest
+[travis-img]:   https://travis-ci.org/PaulGrandperrin/fuzztest-rs.svg?branch=master
+[travis]:       https://travis-ci.org/PaulGrandperrin/fuzztest-rs
 [crates-img]:   https://img.shields.io/crates/v/fuzztest.svg
 [crates]:       https://crates.io/crates/fuzztest
 [docs-img]:     https://docs.rs/fuzztest/badge.svg
