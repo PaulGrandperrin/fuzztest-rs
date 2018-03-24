@@ -1,0 +1,21 @@
+[package]
+name = "fuzztest"
+version = "0.1.0"
+authors = ["Paul Grandperrin <paul.grandperrin@gmail.com>"]
+license = "MIT/Apache-2.0/Unlicense/WTFPL"
+repository = "https://github.com/PaulGrandperrin/fuzztest"
+documentation = "https://docs.rs/fuzztest"
+homepage = "https://github.com/PaulGrandperrin/fuzztest/blob/master/README.md"
+readme = "README.md"
+keywords = ["testing", "fuzz", "fuzzing", "property", "quickcheck"]
+categories = ["development-tools::testing"]
+description = """
+Easily test your software using powerful evolutionary, feedback-driven fuzzing technology.
+"""
+
+[badges]
+travis-ci = { repository = "PaulGrandperrin/fuzztest", branch = "master" }
+maintenance = { status = "actively-developed" }
+
+[dev-dependencies]
+honggfuzz = "0.5"

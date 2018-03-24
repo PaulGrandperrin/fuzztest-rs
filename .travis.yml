@@ -1,0 +1,35 @@
+language: rust
+rust:
+  - stable
+  - beta
+  - nightly
+os:
+  - linux
+  - osx
+matrix:
+  allow_failures:
+    - os: osx
+      rust: stable
+    - rust: nightly
+#  exclude:
+#    - os: osx
+#      rust: stable
+#    - os: osx
+#      rust: beta
+script:
+  - ./test.sh
+env:
+ global:
+    - RUST_BACKTRACE=full
+addons:
+  apt:
+    packages:
+      - binutils-dev
+      - libunwind8-dev
+sudo: required
+notifications:
+  email:
+    recipients:
+      - paul.grandperrin@gmail.com
+    on_success: change
+    on_failure: change
