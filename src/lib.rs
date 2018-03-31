@@ -92,6 +92,7 @@ pub fn check_target_with_marker(target: &str, marker: &str) {
     fs::create_dir(fuzztest_path).expect("failed to create `fuzztest` directory");
 
     // TODO: check that honggfuzz is installed and at the correct version
+    // TODO: allow user-configurated timeout and maximun iterations
     let output = Command::new("cargo")
         .args(&["hfuzz", "run", target])
         .env("HFUZZ_RUN_ARGS", "-W fuzztest --run_time 5 --exit_upon_crash")
