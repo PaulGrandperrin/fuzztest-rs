@@ -1,15 +1,15 @@
 language: rust
 rust:
-  - stable
-  - beta
+#  - stable
+#  - beta
   - nightly
 os:
   - linux
-  - osx
-matrix:
-  allow_failures:
-    - os: osx
-      rust: stable
+#  - osx
+#matrix:
+#  allow_failures:
+#    - os: osx
+#      rust: stable
 #  exclude:
 #    - os: osx
 #      rust: stable
