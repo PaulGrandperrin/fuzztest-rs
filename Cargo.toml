@@ -17,5 +17,8 @@ Easily test your software using powerful evolutionary, feedback-driven fuzzing t
 travis-ci = { repository = "PaulGrandperrin/fuzztest-rs", branch = "master" }
 maintenance = { status = "actively-developed" }
 
+[dependencies]
+lazy_static = "1.0"
+
 [dev-dependencies]
 honggfuzz = "0.5"

@@ -2,6 +2,9 @@
 //!
 //! Easily test your software using powerful evolutionary, feedback-driven fuzzing technology.
 
+#![feature(macro_reexport)]
+#[macro_reexport(lazy_static, __lazy_static_internal, __lazy_static_create)] extern crate lazy_static;
+
 use std::process::{self, Command};
 use std::env;
 use std::fs;
@@ -46,13 +49,18 @@ macro_rules! fuzz_marker {
         {
             use std::env;
             use std::fs::File;
-            let marker: &str = {$marker}.into();
-            let env_marker = env::var("FUZZTEST_MARKER")
-                .expect("fuzztest error: environment variable FUZZTEST_MARKER not set");
-
-            if marker == env_marker {
+            lazy_static! {
+                static ref MARKER_SET: bool = {
+                    let marker: &str = {$marker}.into();
+                    let env_marker = env::var("FUZZTEST_MARKER")
+                        .expect("fuzztest error: environment variable FUZZTEST_MARKER not set");
+                
+                    marker == env_marker
+                };
+            }
+            if *MARKER_SET {
                 // touch marker file
-                File::create(format!("fuzztest/{}.marker", marker))
+                File::create(format!("fuzztest/{}.marker", {$marker}))
                     .expect("fuzztest error: impossible to create marker file");
 
                 panic!("fuzztest: the marker has been successfully hit!");
@@ -76,7 +84,7 @@ pub fn check_target_with_marker(target: &str, marker: &str) {
     // TODO: check that honggfuzz is installed and at the correct version
     let output = Command::new("cargo")
         .args(&["hfuzz", "run", target])
-        .env("HFUZZ_RUN_ARGS", "-W fuzztest -n 1 --run_time 5 --exit_upon_crash")
+        .env("HFUZZ_RUN_ARGS", "-W fuzztest --run_time 5 --exit_upon_crash")
         .env("RUSTFLAGS", "--cfg fuzztest")
         .env("FUZZTEST_MARKER", marker)
         .output()
