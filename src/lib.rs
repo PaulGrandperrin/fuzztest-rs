@@ -3,9 +3,11 @@
 //! Easily test your software using powerful evolutionary, feedback-driven fuzzing technology.
 
 #![feature(use_extern_macros, decl_macro)]
+
 extern crate lazy_static;
 
-pub use lazy_static::*;
+#[allow(unused_imports)]
+use lazy_static::*;
 
 use std::process::{self, Command};
 use std::env;
@@ -14,6 +16,7 @@ use std::path::Path;
 use std::io;
 use std::io::Write;
 
+#[doc(hidden)]
 fn cd_to_crate_root() {
     let mut path = env::current_dir().unwrap();
 
