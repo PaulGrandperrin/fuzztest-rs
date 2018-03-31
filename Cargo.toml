@@ -23,6 +23,4 @@ nightly = ["lazy_static/nightly"]
 
 [dependencies]
 lazy_static = "1.0"
-
-[dev-dependencies]
-honggfuzz = "0.5"
+honggfuzz = "0.5.11"
