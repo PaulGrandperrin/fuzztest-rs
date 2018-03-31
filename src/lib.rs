@@ -87,7 +87,7 @@ pub fn check_target_with_marker(target: &str, marker: &str) {
 
     let fuzztest_path = Path::new("fuzztest");
     if fuzztest_path.is_dir() {
-        panic!("The fuzztest directory already exists. It might contain important crash data. Aborting... ");
+        panic!("The fuzztest directory already exists. It might contain important crash data. Please check it out and/or delete it. Aborting... ");
     }
     fs::create_dir(fuzztest_path).expect("failed to create `fuzztest` directory");
 
