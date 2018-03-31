@@ -2,8 +2,10 @@
 //!
 //! Easily test your software using powerful evolutionary, feedback-driven fuzzing technology.
 
-#![feature(macro_reexport)]
-#[macro_reexport(lazy_static, __lazy_static_internal, __lazy_static_create)] extern crate lazy_static;
+#![feature(use_extern_macros, decl_macro)]
+extern crate lazy_static;
+
+pub use lazy_static::*;
 
 use std::process::{self, Command};
 use std::env;
@@ -42,29 +44,37 @@ fn cd_to_crate_root() {
 /// fuzz_marker!("point_a");
 /// # }
 /// ```
-#[macro_export]
-macro_rules! fuzz_marker {
-    ($marker:expr) => {
-        #[cfg(fuzztest)]
-        {
-            use std::env;
-            use std::fs::File;
-            lazy_static! {
-                static ref MARKER_SET: bool = {
-                    let marker: &str = {$marker}.into();
-                    let env_marker = env::var("FUZZTEST_MARKER")
-                        .expect("fuzztest error: environment variable FUZZTEST_MARKER not set");
-                
-                    marker == env_marker
-                };
-            }
-            if *MARKER_SET {
-                // touch marker file
-                File::create(format!("fuzztest/{}.marker", {$marker}))
-                    .expect("fuzztest error: impossible to create marker file");
+///
+/// ## Performance
+/// 
+/// Under normal compilation this macro expands to nothing and therefore can't affect
+/// in any way performance.
+///
+/// When compiled from the `check_target_with_marker` function (which sets `--cfg fuzztest`
+/// in `RUSTFLAGS`), it will expand to a very carefully optimized piece of code that should 
+/// have almost no impact on performance.
 
-                panic!("fuzztest: the marker has been successfully hit!");
-            }
+pub macro fuzz_marker($marker:expr) {
+    #[cfg(fuzztest)]
+    {
+        use std::env;
+        use std::fs::File;
+
+        lazy_static! {
+            static ref MARKER_SET: bool = {
+                let marker: &str = {$marker}.into();
+                let env_marker = env::var("FUZZTEST_MARKER")
+                    .expect("fuzztest error: environment variable FUZZTEST_MARKER not set");
+            
+                marker == env_marker
+            };
+        }
+        if *MARKER_SET {
+            // touch marker file
+            File::create(format!("fuzztest/{}.marker", {$marker}))
+                .expect("fuzztest error: impossible to create marker file");
+
+            panic!("fuzztest: the marker has been successfully hit!");
         }
     }
 }
